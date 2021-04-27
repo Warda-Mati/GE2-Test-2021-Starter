@@ -1,5 +1,14 @@
 # Game Engines 2 Lab Test 2021
 
+
+# EXTRA FEATURES
+- Added trees 
+- added owner and new dog which follows path
+- trail renderer for ball
+- second dog looks and barks at new dog when nearby
+- birds using harmonic waves and jitter wander
+- bird singing background
+
 - This is an open book test
 - No collaboration permitted
 - Fork this git repository
