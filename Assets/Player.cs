@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
     public GameObject ballPrefab;
 
     public int force;
-    
+
+    public bool hasThrown = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +25,11 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && !hasThrown)
             {
                 GameObject ball = Instantiate(ballPrefab, transform.position, transform.rotation);
                 ball.GetComponent<Rigidbody>().velocity = Vector3.forward * force;
+                hasThrown = true;
                 yield return new WaitForSeconds(2);
             }
 

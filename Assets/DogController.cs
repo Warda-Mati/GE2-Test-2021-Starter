@@ -38,7 +38,7 @@ class ArriveToPlayer : State
         toPlayer.Normalize();
         Vector3 targetPos = new Vector3(dog.player.position.x + toPlayer.x * dog.playerDistance,0,dog.player.position.z + toPlayer.z * dog.playerDistance);
         owner.GetComponent<Arrive>().targetPosition = targetPos;
-        if (Vector3.Distance(owner.transform.position, targetPos) < 1.0f)
+        if (Vector3.Distance(owner.transform.position, targetPos) < 2.0f)
         {
             if (dog.isCarryingBall)
             {
@@ -46,6 +46,7 @@ class ArriveToPlayer : State
                 GameObject ball = dog.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject;
                 ball.transform.parent = null;
                 ball.GetComponent<Rigidbody>().useGravity = true;
+                dog.player.gameObject.GetComponent<Player>().hasThrown = false;
             }
             owner.ChangeState(new LookAtPlayer());
         }
@@ -57,8 +58,10 @@ class ArriveToPlayer : State
 
     public override void Exit()
     {
-        owner.GetComponent<Boid>().velocity = Vector3.zero;
         owner.GetComponent<Arrive>().enabled = false;
+        owner.GetComponent<Boid>().velocity = Vector3.zero;
+        owner.GetComponent<Boid>().force = Vector3.zero;
+        owner.GetComponent<Boid>().acceleration = Vector3.zero;
 
     }
 }
@@ -71,6 +74,7 @@ class LookAtPlayer : State
     {
         dog = owner.GetComponent<DogController>();
         dogHead = dog.gameObject.transform.Find("head").gameObject;
+        
     }
 
     public override void Think()
@@ -79,8 +83,9 @@ class LookAtPlayer : State
         Vector3 toPlayer = dog.player.position - dogHead.transform.position;
         Quaternion lookAtPlayer = Quaternion.LookRotation(toPlayer);
         dogHead.transform.rotation =
-            Quaternion.Slerp(dogHead.transform.rotation, lookAtPlayer, rotationSpeed * Time.deltaTime);
-        if (Vector3.Distance(owner.transform.position, dog.player.position) > 10.0f)
+        Quaternion.Slerp(dogHead.transform.rotation, lookAtPlayer, rotationSpeed * Time.deltaTime);
+    
+        if (Vector3.Distance(owner.transform.position, dog.player.position) > 20.0f)
         {
             owner.ChangeState(new ArriveToPlayer());
         }
@@ -114,7 +119,7 @@ class FetchBall : State
 
     public override void Think()
     {
-        if (Vector3.Distance(owner.transform.position, ball.transform.position) < 1f)
+        if (Vector3.Distance(owner.transform.position, ball.transform.position) < 2f)
         {
             Transform ballAttach = dogAttachParent.transform.GetChild(0);
             ball.GetComponent<Rigidbody>().useGravity = false; 
