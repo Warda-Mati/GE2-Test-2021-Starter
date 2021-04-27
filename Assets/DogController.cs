@@ -36,7 +36,9 @@ class ArriveToPlayer : State
     {
         Vector3 toPlayer = owner.transform.position - dog.player.position;
         toPlayer.Normalize();
-        Vector3 targetPos = new Vector3(dog.player.position.x + toPlayer.x * dog.playerDistance,0,dog.player.position.z + toPlayer.z * dog.playerDistance);
+        //Vector3 targetPos = new Vector3(dog.player.position.x + toPlayer.x * dog.playerDistance,0,dog.player.position.z + toPlayer.z * dog.playerDistance);
+        Vector3 targetPos = dog.player.position + toPlayer * dog.playerDistance;
+        targetPos.y = 0;
         owner.GetComponent<Arrive>().targetPosition = targetPos;
         if (Vector3.Distance(owner.transform.position, targetPos) < 2.0f)
         {
@@ -112,16 +114,22 @@ class FetchBall : State
         owner.GetComponent<AudioSource>().Play();
         dog = owner.GetComponent<DogController>();
         owner.GetComponent<Arrive>().enabled = true;
-        owner.GetComponent<Arrive>().targetGameObject = GameObject.FindWithTag("ball");
+        //owner.GetComponent<Arrive>().targetGameObject = GameObject.FindWithTag("ball");
         dogAttachParent = dog.gameObject.transform.Find("dog").gameObject;
-        ball = owner.GetComponent<Arrive>().targetGameObject;
+        //ball = owner.GetComponent<Arrive>().targetGameObject;
+        ball = GameObject.FindWithTag("ball");
+
     }
 
     public override void Think()
     {
+        owner.GetComponent<Arrive>().targetPosition = ball.transform.position;
+        owner.GetComponent<Arrive>().targetPosition.y = 0;
         if (Vector3.Distance(owner.transform.position, ball.transform.position) < 2f)
         {
+           
             Transform ballAttach = dogAttachParent.transform.GetChild(0);
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero; 
             ball.GetComponent<Rigidbody>().useGravity = false; 
             ball.transform.parent = ballAttach;
             ball.transform.localPosition = Vector3.zero;
@@ -135,7 +143,7 @@ class FetchBall : State
     public override void Exit()
     {
         dog.isCarryingBall = true;
-        owner.GetComponent<Arrive>().targetGameObject = null;
+        //owner.GetComponent<Arrive>().targetPosition = null;
         owner.GetComponent<Boid>().velocity = Vector3.zero;
     }
 }
