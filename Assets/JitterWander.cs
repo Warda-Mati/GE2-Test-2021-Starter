@@ -35,7 +35,7 @@ public class JitterWander : SteeringBehaviour
         Vector3 localTarget = (Vector3.forward * distance) + target;
 
         worldTarget = transform.TransformPoint(localTarget);
-        worldTarget.y = 0;
+        worldTarget.y = 15;
 
         return worldTarget - transform.position;
     }
