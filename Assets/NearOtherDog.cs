@@ -18,6 +18,7 @@ public class NearOtherDog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // extra features, if other dog is near, turn around and bark
         if (Vector3.Distance(transform.position, otherDog.transform.position) < distance)
         {
             GetComponent<FollowPath>().enabled = false;

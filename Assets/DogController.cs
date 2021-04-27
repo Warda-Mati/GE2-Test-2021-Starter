@@ -34,6 +34,7 @@ class ArriveToPlayer : State
 
     public override void Think()
     {
+        // move to position
         Vector3 toPlayer = owner.transform.position - dog.player.position;
         toPlayer.Normalize();
         //Vector3 targetPos = new Vector3(dog.player.position.x + toPlayer.x * dog.playerDistance,0,dog.player.position.z + toPlayer.z * dog.playerDistance);
@@ -42,6 +43,7 @@ class ArriveToPlayer : State
         owner.GetComponent<Arrive>().targetPosition = targetPos;
         if (Vector3.Distance(owner.transform.position, targetPos) < 2.0f)
         {
+            // if dog is carrying ball, drop it and allow player to throw new one
             if (dog.isCarryingBall)
             {
                 dog.isCarryingBall = false;
@@ -50,8 +52,10 @@ class ArriveToPlayer : State
                 ball.GetComponent<Rigidbody>().useGravity = true;
                 dog.player.gameObject.GetComponent<Player>().hasThrown = false;
             }
+            // dog will look at player
             owner.ChangeState(new LookAtPlayer());
         }
+        // if there is a ball, go fetch
         if (GameObject.FindWithTag("ball"))
         {
             owner.ChangeState(new FetchBall());
@@ -60,6 +64,7 @@ class ArriveToPlayer : State
 
     public override void Exit()
     {
+        // stop dog when close to player
         owner.GetComponent<Arrive>().enabled = false;
         owner.GetComponent<Boid>().velocity = Vector3.zero;
         owner.GetComponent<Boid>().force = Vector3.zero;
@@ -81,6 +86,7 @@ class LookAtPlayer : State
 
     public override void Think()
     {
+        // rotate dog's head to look at player by rotating it
         int rotationSpeed = 2;
         Vector3 toPlayer = dog.player.position - dogHead.transform.position;
         Quaternion lookAtPlayer = Quaternion.LookRotation(toPlayer);
@@ -111,6 +117,7 @@ class FetchBall : State
     private GameObject dogAttachParent;
     public override void Enter()
     {
+        // play barking noise
         owner.GetComponent<AudioSource>().Play();
         dog = owner.GetComponent<DogController>();
         owner.GetComponent<Arrive>().enabled = true;
@@ -123,11 +130,12 @@ class FetchBall : State
 
     public override void Think()
     {
+        // seek and arrive to ball's position
         owner.GetComponent<Arrive>().targetPosition = ball.transform.position;
         owner.GetComponent<Arrive>().targetPosition.y = 0;
         if (Vector3.Distance(owner.transform.position, ball.transform.position) < 2f)
         {
-           
+           // set ball's parent and position to attach empty object
             Transform ballAttach = dogAttachParent.transform.GetChild(0);
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero; 
             ball.GetComponent<Rigidbody>().useGravity = false; 
@@ -136,6 +144,7 @@ class FetchBall : State
             ball.gameObject.tag = "Untagged";
             
         }
+        // if ball is caught return to player
         if(ball.tag == "Untagged")
             owner.ChangeState(new ArriveToPlayer());
     }

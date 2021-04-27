@@ -1086,6 +1086,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -51.855, z: 0}
+--- !u!1 &548851178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 668328871393013474, guid: 9a615edea634d1f4cb3977d44744ca18, type: 3}
+  m_PrefabInstance: {fileID: 668328870463733024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &591712475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,6 +1748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 3627371103750170129, guid: b471fff3b0213bb4882085e357ee2c4e, type: 3}
   force: 15
+  hasThrown: 0
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2051,7 +2057,7 @@ GameObject:
   - component: {fileID: 1278694894}
   - component: {fileID: 1278694893}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Tree Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2815,6 +2821,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 668328871393013480, guid: 9a615edea634d1f4cb3977d44744ca18, type: 3}
   m_PrefabInstance: {fileID: 1517569854}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1650992186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650992181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05027ac2d44c65c4eb26f523eecdeef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 10
+  rotationSpeed: 2
+  otherDog: {fileID: 548851178}
 --- !u!1 &1748033898
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         StartCoroutine(ThrowBall());
+        GetComponent<AudioSource>().Play(0);
     }
 
     // Update is called once per frame
